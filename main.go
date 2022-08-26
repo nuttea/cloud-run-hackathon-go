@@ -37,7 +37,64 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	resp := play(v)
+	// Logic to override random command
+	var myx = v.Arena.State["https://cloudbowl-samples-java-quarkus-yngbkt2j3a-uc.a.run.app"].X
+	var myy = v.Arena.State["https://cloudbowl-samples-java-quarkus-yngbkt2j3a-uc.a.run.app"].Y
+	var myd = v.Arena.State["https://cloudbowl-samples-java-quarkus-yngbkt2j3a-uc.a.run.app"].Direction
+	var myh = v.Arena.State["https://cloudbowl-samples-java-quarkus-yngbkt2j3a-uc.a.run.app"].WasHit
+	var diffx int
+	var diffy int
+	var shoot = false
+	var shootto string
+	var resp string
+
+	log.Printf("MyState: X %v, Y %v, Direction %v, WasHit %v \n", myx, myy, myd, myh)
+
+	for player, state := range v.Arena.State {
+		diffx = state.X - myx
+		diffy = state.Y - myy
+		//log.Printf("Diff: Player %v X %v, Y %v", player, diffx, diffy)
+
+		switch myd {
+		case "S":
+			if (diffy > 0) && (diffy < 4) && (diffx == 0) {
+				shoot = true
+				shootto = player
+				resp = "T"
+			}
+		case "N":
+			if (diffy < 0) && (diffy > -4) && (diffx == 0) {
+				shoot = true
+				shootto = player
+				resp = "T"
+			}
+		case "E":
+			if (diffx > 0) && (diffx < 4) && (diffy == 0) {
+				shoot = true
+				shootto = player
+				resp = "T"
+			}
+		case "W":
+			if (diffx < 0) && (diffx > -4) && (diffy == 0) {
+				shoot = true
+				shootto = player
+				resp = "T"
+			}
+		}
+	}
+
+	if myh == false {
+		hitcount = 0
+	} else {
+		hitcount = hitcount + 1
+	}
+
+	if (shoot == false) || (hitcount > 2) {
+		resp = playrandom(v)
+		//log.Printf("Random: true")
+	}
+
+	log.Printf("Command: %v Shoot: %v %v Hitcounts: %v", resp, shootto, shoot, hitcount)
 	fmt.Fprint(w, resp)
 }
 
