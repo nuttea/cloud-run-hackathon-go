@@ -9,6 +9,8 @@ import (
 	"os"
 )
 
+var hitcount int
+
 func main() {
 	port := "8080"
 	if v := os.Getenv("PORT"); v != "" {
@@ -98,12 +100,10 @@ func handler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprint(w, resp)
 }
 
-func play(input ArenaUpdate) (response string) {
-	log.Printf("IN: %#v", input)
+func playrandom(input ArenaUpdate) (response string) {
 
-	commands := []string{"F", "R", "L", "T"}
+	commands := []string{"F", "R", "L", "F"}
 	rand := rand2.Intn(4)
-	
-	log.Printf("OUT: %s", rand)
+	//log.Printf("Rand: %v %v", rand, commands[rand])
 	return commands[rand]
 }
