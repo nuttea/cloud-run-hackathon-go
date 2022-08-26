@@ -40,16 +40,17 @@ func handler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// Logic to override random command
-	var myx = v.Arena.State["https://cloudbowl-samples-java-quarkus-yngbkt2j3a-uc.a.run.app"].X
-	var myy = v.Arena.State["https://cloudbowl-samples-java-quarkus-yngbkt2j3a-uc.a.run.app"].Y
-	var myd = v.Arena.State["https://cloudbowl-samples-java-quarkus-yngbkt2j3a-uc.a.run.app"].Direction
-	var myh = v.Arena.State["https://cloudbowl-samples-java-quarkus-yngbkt2j3a-uc.a.run.app"].WasHit
+	var myx = v.Arena.State["https://cloud-run-hackathon-go-s2quya6bia-uc.a.run.app"].X
+	var myy = v.Arena.State["https://cloud-run-hackathon-go-s2quya6bia-uc.a.run.app"].Y
+	var myd = v.Arena.State["https://cloud-run-hackathon-go-s2quya6bia-uc.a.run.app"].Direction
+	var myh = v.Arena.State["https://cloud-run-hackathon-go-s2quya6bia-uc.a.run.app"].WasHit
 	var diffx int
 	var diffy int
 	var shoot = false
 	var shootto string
 	var resp string
 
+	log.Printf("IN: %v", v)
 	log.Printf("MyState: X %v, Y %v, Direction %v, WasHit %v \n", myx, myy, myd, myh)
 
 	for player, state := range v.Arena.State {
